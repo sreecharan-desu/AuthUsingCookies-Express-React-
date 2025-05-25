@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const BASE_URL = window.location.hostname === "localhost"
     ? "http://localhost:3000"
-    : "https://auth-using-cookies-express-react-uyve.vercel.app/";
+    : "https://auth-using-cookies-express-react-uyve.vercel.app";
 
 type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
 
