@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-    origin : "https://auth-using-cookies-express-react.vercel.app/",
+    origin : "https://auth-using-cookies-express-react.vercel.app",
     credentials : true
 }))
 
