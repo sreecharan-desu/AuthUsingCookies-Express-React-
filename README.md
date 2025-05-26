@@ -1,0 +1,1 @@
+- Simple, secure authentication using cookies. Sign in or sign up to get started.
