@@ -21,21 +21,39 @@ app.get('/', (req, res) => {
 app.post('/signup', async (req, res) => {
     try {
         const { email, password } = req.body;
-        const hashedPw = await bcrypt.hash(password, 4)
-        const user = await User.create({
-            email: email,
-            password: hashedPw,
-            username: email.split("@")[0]
+
+        const userpresent = await User.findOne({
+            email: email
         })
 
-        console.log(user);
+        console.log(userpresent);
 
-        res.json({
-            user,
-            msg: "User created successfully",
-            success: true
-        })
+        if (userpresent && userpresent.password) {
+            res.json({
+                msg: "Email already in use",
+                success: false
+            })
 
+        } else {
+
+
+            const hashedPw = await bcrypt.hash(password, 4)
+
+
+            const user = await User.create({
+                email: email,
+                password: hashedPw,
+                username: email.split("@")[0]
+            })
+
+            console.log(user);
+
+            res.json({
+                user,
+                msg: "User created successfully",
+                success: true
+            })
+        }
     } catch (e) {
         console.log(e)
         res.json({
@@ -64,7 +82,7 @@ app.post('/signin', async (req, res) => {
                 res.cookie("___express_auth_token_", token, {
                     httpOnly: true,
                     secure: true, // <-- VERY IMPORTANT FOR HTTPS
-                    sameSite: "none", 
+                    sameSite: "none",
                 });
                 res.json({
                     user,

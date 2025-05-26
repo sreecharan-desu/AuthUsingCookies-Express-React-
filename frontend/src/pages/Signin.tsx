@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { apis } from "../services/apis"; // Your api helper
+import { useNavigate } from "react-router-dom";
 
 export const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
+  const navigateTo = useNavigate()
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -88,6 +89,8 @@ export const Signin = () => {
         >
           {loading ? "Signing in..." : "Sign In"}
         </button>
+              <p className="text-center"> Wanna create an account ? Click <a className="underline cursor-pointer" onClick={()=>navigateTo('/signup')}>here</a></p>
+
       </form>
     </div>
   );
