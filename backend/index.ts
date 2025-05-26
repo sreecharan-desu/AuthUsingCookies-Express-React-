@@ -1,4 +1,4 @@
-import express from "express"; import bcrypt from "bcrypt";import cors from "cors";
+import express from "express"; import bcrypt from "bcrypt"; import cors from "cors";
 import cookieParser from "cookie-parser"; import jwt from "jsonwebtoken"
 import { User } from "./db/db"; import dotenv from "dotenv";
 dotenv.config()
@@ -7,8 +7,8 @@ const app = express();
 app.use(express.json())
 app.use(cookieParser());
 app.use(cors({
-    origin : "https://auth-using-cookies-express-react.vercel.app",
-    credentials : true
+    origin: ["http://localhost:5173", 'https://auth-using-cookies-express-react.vercel.app'],
+    credentials: true
 }))
 
 
@@ -61,7 +61,11 @@ app.post('/signin', async (req, res) => {
             if (await bcrypt.compare(password, user.password)) {
 
                 const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET || "")
-                res.cookie("___express_auth_token_", token)
+                res.cookie("___express_auth_token_", token, {
+                    httpOnly: true,
+                    secure: true, // <-- VERY IMPORTANT FOR HTTPS
+                    sameSite: "lax", 
+                });
                 res.json({
                     user,
                     msg: "User created successfully",
@@ -74,11 +78,11 @@ app.post('/signin', async (req, res) => {
                     success: false
                 })
             }
-        }else{
-                  res.json({
-                    msg: "Invalid credentials",
-                    success: false
-                })
+        } else {
+            res.json({
+                msg: "Invalid credentials",
+                success: false
+            })
         }
 
 
