@@ -64,7 +64,7 @@ app.post('/signin', async (req, res) => {
                 res.cookie("___express_auth_token_", token, {
                     httpOnly: true,
                     secure: true, // <-- VERY IMPORTANT FOR HTTPS
-                    sameSite: "lax", 
+                    sameSite: "none", 
                 });
                 res.json({
                     user,
